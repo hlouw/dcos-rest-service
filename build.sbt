@@ -4,7 +4,7 @@ import DockerPackage._
 lazy val buildSettings = Seq(
   name := "dcos-rest-service",
   organization := "hlouw",
-  version := "0.1.0",
+  version := "0.1.4",
   scalaVersion := "2.11.8",
   scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 )

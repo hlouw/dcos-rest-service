@@ -14,7 +14,7 @@ object Main extends App {
 
   val config = ConfigFactory.load()
 
-  val pingResource = new HealthResource()
+  val pingResource = new HealthResource(config.getString("router.path"))
 
   val routes = pingResource.routes
 

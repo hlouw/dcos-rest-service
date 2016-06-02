@@ -4,12 +4,12 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
-import akka.stream.Materializer
+import akka.stream.ActorMaterializer
 import hlouw.dcos.service.rest.services.HealthCheck
 
 import scala.concurrent.ExecutionContextExecutor
 
-class HealthResource(implicit system: ActorSystem, executor: ExecutionContextExecutor, materializer: Materializer) {
+class HealthResource(router: String)(implicit system: ActorSystem, executor: ExecutionContextExecutor, materializer: ActorMaterializer) {
 
   val routes =
     path("ping") {
@@ -17,7 +17,7 @@ class HealthResource(implicit system: ActorSystem, executor: ExecutionContextExe
     } ~
     path("health") {
       complete {
-        HealthCheck.check().map[ToResponseMarshallable] {
+        HealthCheck.pingDependencies(router).map[ToResponseMarshallable] {
           case s => StatusCodes.OK -> s
         }
       }
